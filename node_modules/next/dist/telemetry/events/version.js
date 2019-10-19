@@ -1,0 +1,2 @@
+"use strict";exports.__esModule=true;exports.recordVersion=recordVersion;var _storage=require("../storage");const EVENT_VERSION='NEXT_CLI_SESSION_STARTED';function recordVersion(event){// This should be an invariant, if it fails our build tooling is broken.
+if(typeof "9.1.1"!=='string'){return Promise.resolve();}return(0,_storage.record)({eventName:EVENT_VERSION,payload:{nextVersion:"9.1.1",nodeVersion:process.version,cliCommand:event.cliCommand}});}
