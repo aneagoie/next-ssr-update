@@ -1,10 +1,2 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-let runtimeConfig;
-exports.default = () => {
-    return runtimeConfig;
-};
-function setConfig(configValue) {
-    runtimeConfig = configValue;
-}
-exports.setConfig = setConfig;
+"use strict";exports.__esModule=true;exports.setConfig=setConfig;exports.default=void 0;let runtimeConfig;var _default=()=>{return runtimeConfig;};exports.default=_default;function setConfig(configValue){runtimeConfig=configValue;}
+//# sourceMappingURL=runtime-config.js.map

@@ -1,1 +1,1 @@
-export declare function fileExists(fileName: string): Promise<boolean>;
+export declare function fileExists(fileName: string, type?: 'file' | 'directory'): Promise<boolean>;

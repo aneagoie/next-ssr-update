@@ -15,7 +15,7 @@
  */
 'use strict';
 
-let fetch = require('node-fetch');
+let fetch = require('cross-fetch');
 const MaxAge = require('./MaxAge.js');
 
 const cache = new Map();
@@ -45,8 +45,8 @@ async function oneBehindFetch(input, init) {
   const newResponsePromise = fetch(input, init);
   cachedResponse = {
     responsePromise: newResponsePromise,
-    maxAge: newResponsePromise.then(
-        (response) => MaxAge.parse(response.headers.get('cache-control'))
+    maxAge: newResponsePromise.then((response) =>
+      MaxAge.parse(response.headers.get('cache-control'))
     ),
   };
   cache.set(input, cachedResponse);
@@ -57,6 +57,6 @@ async function oneBehindFetch(input, init) {
 }
 
 oneBehindFetch.clearCache = () => cache.clear();
-oneBehindFetch.setDelegate = (delegate) => fetch = delegate;
+oneBehindFetch.setDelegate = (delegate) => (fetch = delegate);
 
 module.exports = oneBehindFetch;

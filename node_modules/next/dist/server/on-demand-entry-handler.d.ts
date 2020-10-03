@@ -1,17 +1,24 @@
 /// <reference types="node" />
 import { IncomingMessage, ServerResponse } from 'http';
 import webpack from 'webpack';
-import WebpackDevMiddleware from 'webpack-dev-middleware';
-export default function onDemandEntryHandler(devMiddleware: WebpackDevMiddleware.WebpackDevMiddleware, multiCompiler: webpack.MultiCompiler, { buildId, pagesDir, reload, pageExtensions, maxInactiveAge, pagesBufferLength, }: {
-    buildId: string;
+export declare const ADDED: unique symbol;
+export declare const BUILDING: unique symbol;
+export declare const BUILT: unique symbol;
+export declare let entries: {
+    [page: string]: {
+        serverBundlePath: string;
+        clientBundlePath: string;
+        absolutePagePath: string;
+        status?: typeof ADDED | typeof BUILDING | typeof BUILT;
+        lastActiveTime?: number;
+    };
+};
+export default function onDemandEntryHandler(watcher: any, multiCompiler: webpack.MultiCompiler, { pagesDir, pageExtensions, maxInactiveAge, pagesBufferLength, }: {
     pagesDir: string;
-    reload: any;
     pageExtensions: string[];
     maxInactiveAge: number;
     pagesBufferLength: number;
 }): {
-    waitUntilReloaded(): Promise<unknown>;
     ensurePage(page: string): Promise<unknown>;
-    middleware(): (req: IncomingMessage, res: ServerResponse, next: Function) => any;
+    middleware(req: IncomingMessage, res: ServerResponse, next: Function): any;
 };
-export declare function normalizePage(page: string): string;

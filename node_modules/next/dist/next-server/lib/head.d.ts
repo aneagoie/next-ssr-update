@@ -8,6 +8,6 @@ declare function Head({ children }: {
     children: React.ReactNode;
 }): JSX.Element;
 declare namespace Head {
-    var rewind: () => React.ReactElement<any, string | ((props: any) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null) | (new (props: any) => React.Component<any, any, any>)>[] | undefined;
+    var rewind: () => void;
 }
 export default Head;

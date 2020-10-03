@@ -1,16 +1,3 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const react_1 = __importDefault(require("react"));
-const amp_context_1 = require("./amp-context");
-function isInAmpMode({ ampFirst = false, hybrid = false, hasQuery = false, } = {}) {
-    return ampFirst || (hybrid && hasQuery);
-}
-exports.isInAmpMode = isInAmpMode;
-function useAmp() {
-    // Don't assign the context value to a variable to save bytes
-    return isInAmpMode(react_1.default.useContext(amp_context_1.AmpStateContext));
-}
-exports.useAmp = useAmp;
+"use strict";exports.__esModule=true;exports.isInAmpMode=isInAmpMode;exports.useAmp=useAmp;var _react=_interopRequireDefault(require("react"));var _ampContext=require("./amp-context");function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}function isInAmpMode({ampFirst=false,hybrid=false,hasQuery=false}={}){return ampFirst||hybrid&&hasQuery;}function useAmp(){// Don't assign the context value to a variable to save bytes
+return isInAmpMode(_react.default.useContext(_ampContext.AmpStateContext));}
+//# sourceMappingURL=amp.js.map

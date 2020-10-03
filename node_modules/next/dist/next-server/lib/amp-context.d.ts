@@ -1,2 +1,2 @@
-import * as React from 'react';
+import React from 'react';
 export declare const AmpStateContext: React.Context<any>;

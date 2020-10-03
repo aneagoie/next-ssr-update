@@ -1,2 +1,2 @@
 import { PluginObj } from '@babel/core';
-export default function AmpAttributePatcher(...args: any): PluginObj;
+export default function AmpAttributePatcher(): PluginObj;

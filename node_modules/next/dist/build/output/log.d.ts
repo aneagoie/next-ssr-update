@@ -1,3 +1,11 @@
+export declare const prefixes: {
+    wait: string;
+    error: string;
+    warn: string;
+    ready: string;
+    info: string;
+    event: string;
+};
 export declare function wait(...message: string[]): void;
 export declare function error(...message: string[]): void;
 export declare function warn(...message: string[]): void;

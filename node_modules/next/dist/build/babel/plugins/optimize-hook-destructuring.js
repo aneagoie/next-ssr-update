@@ -9,3 +9,4 @@ if(!binding||binding.kind!=='module')return;const specifier=binding.path.parent.
 if(!libs.some(lib=>lib===specifier))return;}// only match function calls with names that look like a hook
 if(!(onlyBuiltIns?isBuiltInHook:isHook).test(hookName))return;path.parent.id=t.objectPattern(path.parent.id.elements.reduce((patterns,element,i)=>{if(element===null){return patterns;}return patterns.concat(t.objectProperty(t.numericLiteral(i),element));},[]));}};return{name:'optimize-hook-destructuring',visitor:{// this is a workaround to run before preset-env destroys destructured assignments
 Program(path,state){path.traverse(visitor,state);}}};}
+//# sourceMappingURL=optimize-hook-destructuring.js.map

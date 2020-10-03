@@ -24,5 +24,6 @@ export declare class ReactLoadablePlugin {
     constructor(opts: {
         filename: string;
     });
+    createAssets(compiler: any, compilation: any, assets: any): any;
     apply(compiler: Compiler): void;
 }

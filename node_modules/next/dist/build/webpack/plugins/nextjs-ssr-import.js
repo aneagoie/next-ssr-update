@@ -4,3 +4,4 @@ class NextJsSsrImportPlugin{apply(compiler){compiler.hooks.compilation.tap('Next
 const outputPath=(0,_path.resolve)('/');const pagePath=(0,_path.join)('/',(0,_path.dirname)(chunk.name));const relativePathToBaseDir=(0,_path.relative)(pagePath,outputPath);// Make sure even in windows, the path looks like in unix
 // Node.js require system will convert it accordingly
 const relativePathToBaseDirNormalized=relativePathToBaseDir.replace(/\\/g,'/');return code.replace('require("./"',`require("${relativePathToBaseDirNormalized}/"`).replace('readFile(join(__dirname',`readFile(join(__dirname, "${relativePathToBaseDirNormalized}"`);});});}}exports.default=NextJsSsrImportPlugin;
+//# sourceMappingURL=nextjs-ssr-import.js.map

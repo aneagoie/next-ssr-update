@@ -1,5 +1,5 @@
 import Server, { ServerConstructor } from '../next-server/server/next-server';
-declare type NextServerConstructor = Omit<ServerConstructor, 'staticMarkup'> & {
+declare type NextServerConstructor = ServerConstructor & {
     /**
      * Whether to launch Next.js in dev mode - @default false
      */

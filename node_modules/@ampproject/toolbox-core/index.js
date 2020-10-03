@@ -16,9 +16,9 @@
 'use strict';
 
 module.exports = {
+  FileSystemCache: require('./lib/FileSystemCache.js'),
   MaxAge: require('./lib/MaxAge.js'),
   oneBehindFetch: require('./lib/oneBehindFetch.js'),
   log: require('./lib/Log.js'),
   isAmp: require('./lib/IsAmp.js'),
 };
-

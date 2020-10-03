@@ -15,136 +15,13 @@
  */
 'use strict';
 
-const parse5 = require('parse5');
-const htmlparser2 = require('parse5-htmlparser2-tree-adapter');
+const {Parser} = require('htmlparser2');
+const {DomHandler, NodeWithChildren} = require('domhandler');
+const {appendAll} = require('./NodeUtils');
+const render = require('dom-serializer').default;
 
-// Extend Node class with methods required by transformers
-const Node = Object.getPrototypeOf(htmlparser2.createDocument());
-
-// Depth-first walk through the DOM tree.
-Node.nextNode = function() {
-  // Walk downwards if there are children
-  const firstChild = this.firstChild;
-  if (firstChild) {
-    return firstChild;
-  }
-  // Return the direct sibling or walk upwards until we find a node with sibling
-  let node = this;
-  while (node) {
-    const nextSibling = node.nextSibling;
-    if (nextSibling) {
-      return nextSibling;
-    }
-    // Walk upwards
-    node = node.parent;
-  }
-  // We are done
-  return null;
-};
-
-// Remove node from DOM
-Node.remove = function() {
-  htmlparser2.detachNode(this);
-};
-
-// Append child node
-Node.appendChild = function(childNode) {
-  if (!childNode) {
-    return;
-  }
-  childNode.nextSibling = null;
-  htmlparser2.appendChild(this, childNode);
-};
-
-// Insert node before reference node
-Node.insertBefore = function(newNode, referenceNode) {
-  if (!newNode) {
-    return;
-  }
-
-  // If referenceNode is null, the newNode is inserted at the end of the list of child nodes.
-  // https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore
-  if (referenceNode === null) {
-    this.appendChild(newNode);
-    return;
-  }
-
-  htmlparser2.insertBefore(this, newNode, referenceNode);
-};
-
-/**
- * Inserts a Node after the reference node. If referenceNode is null, inserts the node as
- * the first child.
- *
- * @param {Node} newNode the node to be inserted.
- * @param {Node} referenceNode the reference node, where the new node will be added before.
- */
-Node.insertAfter = function(newNode, referenceNode) {
-  if (referenceNode) {
-    // if referenceNode.nextSibling is null, referenceNode is the last child. newNode is inserted
-    // as the last element.
-    this.insertBefore(newNode, referenceNode.nextSibling);
-    return;
-  }
-
-  this.insertBefore(newNode, this.firstChild);
-};
-
-// Append child node
-Node.appendAll = function(nodes) {
-  if (!nodes) {
-    return;
-  }
-  for (let i = 0, len = nodes.length; i < len; i++) {
-    this.appendChild(nodes[i]);
-  }
-};
-
-// First child by tag
-Node.firstChildByTag = function(tag) {
-  return this.children.find(
-      (child) => child.tagName && child.tagName.toLowerCase() === tag
-  );
-};
-
-// First child by tag
-Node.hasAttribute = function(attribute) {
-  if (!this.attribs) return false;
-  return attribute in this.attribs;
-};
-
-Node.insertText = function(text) {
-  htmlparser2.insertText(this, text);
-};
-
-/**
- * A DOM Tree
- */
-class Tree {
-  /**
-   * @param {obj} htmlparser2 treeAdapter
-   * @param {Node} root node
-   */
-  constructor(htmlparser2, root) {
-    this._htmlparser2 = htmlparser2;
-    this.root = root;
-  }
-
-  /**
-   * Creates a new element
-   *
-   * @param {string} tagName
-   * @param {obj} [attribs={}]
-   * @returns {Node} new node
-   */
-  createElement(tagName, attribs) {
-    const result = this._htmlparser2.createElement(tagName, '', []);
-    if (attribs) {
-      result.attribs = attribs;
-    }
-    return result;
-  }
-}
+// https://github.com/fb55/domhandler#option-normalizewhitespace
+const PARSER_OPTIONS = {};
 
 /**
  * HTML parser and serializer. DOM nodes use htmlparser2 API with custom extensions
@@ -162,8 +39,20 @@ class TreeParser {
    * @returns {Node} root node
    */
   parse(html) {
-    const root = parse5.parse(html, this.options);
-    return new Tree(this.options.treeAdapter, root);
+    return new Promise((resolve, reject) => {
+      const handler = new DomHandler((error, dom) => {
+        if (error) {
+          reject(error);
+        } else {
+          const root = new NodeWithChildren('root', []);
+          appendAll(root, dom);
+          resolve(root);
+        }
+      }, this.options);
+      const parser = new Parser(handler);
+      parser.write(html.trim());
+      parser.end();
+    });
   }
 
   /**
@@ -171,11 +60,9 @@ class TreeParser {
    *
    * @param {Tree} tree
    */
-  serialize(tree) {
-    return parse5.serialize(tree.root, this.options);
+  serialize(node) {
+    return render(node, {});
   }
 }
 
-module.exports = new TreeParser({
-  treeAdapter: htmlparser2,
-});
+module.exports = new TreeParser(PARSER_OPTIONS);

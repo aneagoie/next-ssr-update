@@ -1,1 +1,1 @@
-export declare function resolveRequest(req: string, issuer: string): any;
+export declare function resolveRequest(req: string, issuer: string): string;
