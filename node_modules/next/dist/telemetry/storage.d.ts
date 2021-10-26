@@ -1,3 +1,4 @@
+import { BinaryLike } from 'crypto';
 declare type TelemetryEvent = {
     eventName: string;
     payload: object;
@@ -24,7 +25,7 @@ export declare class Telemetry {
     private get isDisabled();
     setEnabled: (_enabled: boolean) => void;
     get isEnabled(): boolean;
-    oneWayHash: (payload: string | DataView | Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array) => string;
+    oneWayHash: (payload: BinaryLike) => string;
     private get projectId();
     record: (_events: TelemetryEvent | TelemetryEvent[]) => Promise<RecordObject>;
     flush: () => Promise<RecordObject[] | null>;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NextPageContext } from '../next-server/lib/utils';
+import { NextPageContext } from '../shared/lib/utils';
 export declare type ErrorProps = {
     statusCode: number;
     title?: string;

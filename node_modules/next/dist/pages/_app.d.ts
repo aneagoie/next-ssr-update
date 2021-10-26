@@ -1,6 +1,5 @@
-/// <reference types="node" />
-import React, { ErrorInfo } from 'react';
-import { AppContextType, AppInitialProps, AppPropsType, NextWebVitalsMetric } from '../next-server/lib/utils';
+import React from 'react';
+import { AppContextType, AppInitialProps, AppPropsType, NextWebVitalsMetric } from '../shared/lib/utils';
 import { Router } from '../client/router';
 export { AppInitialProps };
 export { NextWebVitalsMetric };
@@ -14,17 +13,5 @@ declare function appGetInitialProps({ Component, ctx, }: AppContext): Promise<Ap
 export default class App<P = {}, CP = {}, S = {}> extends React.Component<P & AppProps<CP>, S> {
     static origGetInitialProps: typeof appGetInitialProps;
     static getInitialProps: typeof appGetInitialProps;
-    componentDidCatch(error: Error, _errorInfo: ErrorInfo): void;
     render(): JSX.Element;
 }
-export declare function Container(p: any): any;
-export declare function createUrl(router: Router): {
-    readonly query: import("querystring").ParsedUrlQuery;
-    readonly pathname: string;
-    readonly asPath: string;
-    back: () => void;
-    push: (url: string, as?: string | undefined) => Promise<boolean>;
-    pushTo: (href: string, as?: string | undefined) => Promise<boolean>;
-    replace: (url: string, as?: string | undefined) => Promise<boolean>;
-    replaceTo: (href: string, as?: string | undefined) => Promise<boolean>;
-};
