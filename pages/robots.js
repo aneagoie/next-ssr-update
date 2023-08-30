@@ -9,7 +9,7 @@ const Robots = (props) => {
         {props.robots.map(robot => (
           <li key={robot.id}>
             <Link href={`/robot/${robot.id}`}>
-              <a>{robot.name}</a>
+              <div>{robot.name}</div>
             </Link>
           </li>
         ))}
